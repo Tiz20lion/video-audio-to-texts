@@ -6,7 +6,6 @@ import pytest
 
 from transcriber.utils import get_output_path, is_video, validate_file
 
-
 # ── validate_file ─────────────────────────────────────────────────────────────
 
 def test_validate_missing_file():

@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import pytest
-
 from transcriber.formatters import to_srt, to_txt, to_vtt
 
 SEGMENTS = [
