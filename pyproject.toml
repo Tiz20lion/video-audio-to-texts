@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tiz-mp4-txt"
+version = "0.1.0"
+description = "Local audio/video transcription tool powered by OpenAI Whisper"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "tiz20lion", email = "highmary122@outlook.com" }]
+requires-python = ">=3.9"
+keywords = ["transcription", "whisper", "audio", "video", "subtitles", "srt"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "openai-whisper>=20231117",
+    "click>=8.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "ruff>=0.1",
+    "mypy>=1.0",
+]
+
+[project.scripts]
+tiz-mp4-txt = "transcriber.cli:main"
+
+[project.urls]
+Repository = "https://github.com/tiz20lion/video-audio-to-texts"
+"Bug Tracker" = "https://github.com/tiz20lion/video-audio-to-texts/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["transcriber*"]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.9"
+strict = false
+ignore_missing_imports = true
+warn_unused_ignores = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
