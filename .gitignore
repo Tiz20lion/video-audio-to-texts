@@ -40,6 +40,26 @@ htmlcov/
 # temp files generated during transcription
 *.tmp.wav
 
+# ── Input media files (never commit uploads) ──────────────────────────────────
+*.mp4
+*.mp3
+*.mov
+*.mkv
+*.wav
+*.m4a
+*.webm
+*.avi
+*.flv
+*.ogg
+*.opus
+
+# ── Transcript output files ───────────────────────────────────────────────────
+*.srt
+*.vtt
+# plain-text transcripts (named like the source file, e.g. video.txt)
+# Note: README.md, CONTRIBUTING.md etc. use .md not .txt so this is safe
+*.txt
+
 # dist packages
 *.tar.gz
 *.whl
