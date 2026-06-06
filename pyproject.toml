@@ -37,6 +37,9 @@ dev = [
     "ruff>=0.1",
     "mypy>=1.0",
 ]
+vision = [
+    "anthropic>=0.49",
+]
 
 [project.scripts]
 tiz-mp4-txt = "transcriber.cli:main"

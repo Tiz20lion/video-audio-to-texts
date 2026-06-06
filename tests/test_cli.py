@@ -85,6 +85,9 @@ def test_transcribe_called_with_correct_args(runner: CliRunner, tmp_path):
         output=None,
         stdout=False,
         verbose=True,
+        vision=False,
+        vision_fps=0.5,
+        api_key=None,
     )
 
 

@@ -52,6 +52,20 @@ FORMAT_CHOICES = ["txt", "srt", "vtt", "all"]
     default=False,
     help="Show progress and debug information.",
 )
+@click.option(
+    "--vision",
+    is_flag=True,
+    default=False,
+    help="Add visual description using Claude vision API (requires ANTHROPIC_API_KEY).",
+)
+@click.option(
+    "--vision-fps",
+    default=0.5,
+    show_default=True,
+    type=float,
+    metavar="FPS",
+    help="Frames per second to sample for vision analysis.",
+)
 @click.version_option(__version__, prog_name="tiz-mp4-txt")
 def main(
     files: tuple[str, ...],
@@ -61,6 +75,8 @@ def main(
     output: str | None,
     stdout: bool,
     verbose: bool,
+    vision: bool,
+    vision_fps: float,
 ) -> None:
     """Transcribe audio or video files to text using OpenAI Whisper.
 
@@ -75,7 +91,10 @@ def main(
       tiz-mp4-txt --model large --language en interview.mp3
       tiz-mp4-txt --stdout podcast.mp3 | grep keyword
       tiz-mp4-txt clip1.mp4 clip2.mp4 clip3.mp4
+      tiz-mp4-txt --vision video.mp4
     """
+    import os
+
     code = transcribe(
         files=files,
         model=model,
@@ -84,5 +103,8 @@ def main(
         output=output,
         stdout=stdout,
         verbose=verbose,
+        vision=vision,
+        vision_fps=vision_fps,
+        api_key=os.environ.get("ANTHROPIC_API_KEY"),
     )
     sys.exit(code)

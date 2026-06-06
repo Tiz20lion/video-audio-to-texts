@@ -17,9 +17,15 @@ def transcribe(
     output: str | None = None,
     stdout: bool = False,
     verbose: bool = False,
+    vision: bool = False,
+    vision_fps: float = 0.5,
+    api_key: str | None = None,
 ) -> int:
     """Transcribe one or more audio/video files. Returns an exit code (0 = success)."""
     import whisper  # lazy — keeps import time fast and lets tests run without whisper
+
+    if vision:
+        from .vision import visual_description  # noqa: E402
 
     check_ffmpeg()
 
@@ -56,11 +62,20 @@ def transcribe(
             result = wmodel.transcribe(str(audio_path), verbose=verbose or None, **whisper_kwargs)
             segments: list[dict] = result["segments"]
 
+            vision_prefix = ""
+            if vision and is_video(input_path):
+                if verbose:
+                    print(f"Describing frames from '{input_path.name}' with Claude vision…")
+                desc = visual_description(input_path, fps=vision_fps, api_key=api_key)
+                if desc:
+                    vision_prefix = f"[Visual Description]\n{desc}\n\n[Transcript]\n"
+
             formats = ["txt", "srt", "vtt"] if fmt == "all" else [fmt]
 
             for f in formats:
                 formatter = FORMATTERS[f]  # type: ignore[index]
-                text = formatter(segments)  # type: ignore[operator]
+                transcript = formatter(segments)  # type: ignore[operator]
+                text = (vision_prefix + transcript) if (vision_prefix and f == "txt") else transcript
 
                 if stdout:
                     print(text)
